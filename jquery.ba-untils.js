@@ -27,7 +27,9 @@
 // This working example, complete with fully commented code, illustrates one way
 // in which this plugin can be used.
 // 
-// Untils - http://benalman.com/code/projects/jquery-untils/examples/untils/
+// nextUntil    - http://benalman.com/code/projects/jquery-untils/examples/nextuntil/
+// prevUntil    - http://benalman.com/code/projects/jquery-untils/examples/prevuntil/
+// parentsUntil - http://benalman.com/code/projects/jquery-untils/examples/parentsuntil/
 // 
 // About: Support and Testing
 // 
