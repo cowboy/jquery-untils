@@ -1,158 +1,74 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
-        "http://www.w3.org/TR/html4/loose.dtd">
-<html lang="en">
+<!DOCTYPE html>
+<html>
 <head>
-  <meta http-equiv="content-type" content="text/html; charset=utf-8">
-  <title>jQuery Untils - Unit Tests</title>
-
-<script type="text/javascript" src="../shared/jquery-1.3.2.js"></script>
-<script type="text/javascript" src="testrunner.js"></script>
-<link rel="stylesheet" href="testsuite.css">
-
-<script type="text/javascript" src="../jquery.ba-untils.js"></script>
-<script type="text/javascript" language="javascript">
-<!--
-$(function(){ // START CLOSURE
-
-test( "$.fn.nextUntil", function() {
-  expect(17);
+  <title>jQuery untils - Unit Tests</title>
+  <link rel="stylesheet" href="qunit.css" type="text/css" media="screen">
+  <script type="text/javascript" src="../shared/qunit.js"></script>
   
-  var next = $("#foo1").next(),
-    next_all = $("#foo1").nextAll(),
-    all_but_last = next_all.not(":last"),
-    next_all2 = $("#bar1").nextAll(),
-    all_but_last2 = next_all2.not(":last");
+  <script type="text/javascript" src="../shared/jquery-1.3.2.js"></script>
   
-  same( $("#foo1").nextUntil().get(), next_all.get(), "nextUntil with no selector (nextAll)" );
-  same( $("#foo1").nextUntil(".xxx").get(), next_all.get(), "nextUntil with invalid selector (nextAll)" );
-  same( $("#foo1").nextUntil("#foo3").get(), next.get(), "Simple nextUntil check" );
-  same( $("#foo1").nextUntil("#foo8, #foo3").get(), next.get(), "Less simple nextUntil check" );
-  same( $("#foo1").nextUntil("#foo8").get(), all_but_last.get(), "Simple nextUntil check" );
-  same( $("#foo1").nextUntil("#foo8", "p").get(), all_but_last.not("span").get(), "Filtered nextUntil check" );
-  same( $("#foo1").nextUntil("#foo8", "span").get(), all_but_last.not("p").get(), "Filtered nextUntil check" );
-  same( $("#foo1").nextUntil("#foo8", "p, span").get(), all_but_last.get(), "Multiple-filtered nextUntil check" );
-  same( $("#foo1").nextUntil("#foo8", "ul").get(), [], "Filtered nextUntil check, no match" );
-  same( $("#foo1, #foo3").nextUntil("#foo8").get(), all_but_last.get(), "Multi-source, nextUntil check" );
-  same( $("#foo1, #foo3").nextUntil("#foo8", "span").get(), all_but_last.not("p").get(), "Multi-source, filtered nextUntil check" );
-  same( $("#foo3, #foo1").nextUntil("#foo8", "p, span").get(), all_but_last.get(), "Multi-source, multiple-filtered nextUntil check" );
-  same( $("#foo1, #bar1").nextUntil("#foo8").get(), all_but_last.add(next_all2).get(), "Multi-source, nextUntil check" );
-  same( $("#foo1, #bar1").nextUntil("#foo8").get(), all_but_last.add(next_all2).get(), "Multi-source, nextUntil check" );
-  same( $("#foo1, #bar1").nextUntil("#foo8, #bar8").get(), all_but_last.add(all_but_last2).get(), "Multi-source, less simple nextUntil check" );
-  same( $("#bar1, #foo1").nextUntil("#foo8, #bar8", "span").get(), all_but_last.add(all_but_last2).not("p").get(), "Multi-source, less simple filtered nextUntil check" );
-  same( $("#bar1, #foo1").nextUntil("#foo8, #bar8", "p, span").get(), all_but_last.add(all_but_last2).get(), "Multi-source, less simple multiple-filtered nextUntil check" );
-});
-
-test( "$.fn.prevUntil", function() {
-  expect(17);
-  
-  var prev = $("#foo8").prev(),
-    prev_all = $("#foo8").prevAll(),
-    all_but_last = prev_all.not(":last"),
-    prev_all2 = $("#bar8").prevAll(),
-    all_but_last2 = prev_all2.not(":last");
-  
-  same( $("#foo8").prevUntil().get(), prev_all.get(), "prevUntil with no selector (prevAll)" );
-  same( $("#foo8").prevUntil(".xxx").get(), prev_all.get(), "prevUntil with invalid selector (prevAll)" );
-  same( $("#foo8").prevUntil("#foo6").get(), prev.get(), "Simple prevUntil check" );
-  same( $("#foo8").prevUntil("#foo1, #foo6").get(), prev.get(), "Less simple prevUntil check" );
-  same( $("#foo8").prevUntil("#foo1").get(), all_but_last.get(), "Simple prevUntil check" );
-  same( $("#foo8").prevUntil("#foo1", "p").get(), all_but_last.not("span").get(), "Filtered prevUntil check" );
-  same( $("#foo8").prevUntil("#foo1", "span").get(), all_but_last.not("p").get(), "Filtered prevUntil check" );
-  same( $("#foo8").prevUntil("#foo1", "p, span").get(), all_but_last.get(), "Multiple-filtered prevUntil check" );
-  same( $("#foo8").prevUntil("#foo1", "ul").get(), [], "Filtered prevUntil check, no match" );
-  same( $("#foo8, #foo6").prevUntil("#foo1").get(), all_but_last.get(), "Multi-source, prevUntil check" );
-  same( $("#foo8, #foo6").prevUntil("#foo1", "span").get(), all_but_last.not("p").get(), "Multi-source, filtered prevUntil check" );
-  same( $("#foo6, #foo8").prevUntil("#foo1", "p, span").get(), all_but_last.get(), "Multi-source, multiple-filtered prevUntil check" );
-  same( $("#foo8, #bar8").prevUntil("#foo1").get(), prev_all2.add(all_but_last).get(), "Multi-source, prevUntil check" );
-  same( $("#foo8, #bar8").prevUntil("#foo1").get(), prev_all2.add(all_but_last).get(), "Multi-source, prevUntil check" );
-  same( $("#foo8, #bar8").prevUntil("#foo1, #bar1").get(), all_but_last2.add(all_but_last).get(), "Multi-source, less simple prevUntil check" );
-  same( $("#bar8, #foo8").prevUntil("#foo1, #bar1", "span").get(), all_but_last2.add(all_but_last).not("p").get(), "Multi-source, less simple filtered prevUntil check" );
-  same( $("#bar8, #foo8").prevUntil("#foo1, #bar1", "p, span").get(), all_but_last2.add(all_but_last).get(), "Multi-source, less simple multiple-filtered prevUntil check" );
-});
-
-test( "$.fn.parentsUntil", function() {
-  expect(17);
-  
-  var parent = $("#foo1000").parent(),
-    parents = $("#foo1000").parents(),
-    parents_until_body = parents.not('html,body'),
-    parents2 = $("#bar1000").parents(),
-    parents_until_body2 = parents2.not('html,body');
-  
-  same( $("#foo1000").parentsUntil().get(), parents.get(), "parentsUntil with no selector (parents)" );
-  same( $("#foo1000").parentsUntil(".xxx").get(), parents.get(), "parentsUntil with invalid selector (parents)" );
-  same( $("#foo1000").parentsUntil("#foo10").get(), parent.get(), "Simple parentsUntil check" );
-  same( $("#foo1000").parentsUntil("#foo, #foo10").get(), parent.get(), "Less simple parentsUntil check" );
-  same( $("#foo1000").parentsUntil("body").get(), parents_until_body.get(), "Simple parentsUntil check" );
-  same( $("#foo1000").parentsUntil("body", "p").get(), parents_until_body.not("span, em, div").get(), "Filtered parentsUntil check" );
-  same( $("#foo1000").parentsUntil("body", "span").get(), parents_until_body.not("p, em, div").get(), "Filtered parentsUntil check" );
-  same( $("#foo1000").parentsUntil("body", "p, span, em, div").get(), parents_until_body.get(), "Multiple-filtered parentsUntil check" );
-  same( $("#foo1000").parentsUntil("body", "ul").get(), [], "Filtered parentsUntil check, no match" );
-  same( $("#foo1000, #foo10").parentsUntil("body").get(), parents_until_body.get(), "Multi-source, parentsUntil check" );
-  same( $("#foo1000, #foo10").parentsUntil("body", "span").get(), parents_until_body.not("p, em, div").get(), "Multi-source, filtered parentsUntil check" );
-  same( $("#foo10, #foo1000").parentsUntil("body", "p, span, em, div").get(), parents_until_body.get(), "Multi-source, multiple-filtered parentsUntil check" );
-  same( $("#foo1000, #bar1000").parentsUntil("body").get(), parents_until_body2.add(parents_until_body).get(), "Multi-source, parentsUntil check" );
-  same( $("#foo1000, #bar1000").parentsUntil("body").get(), parents_until_body2.add(parents_until_body).get(), "Multi-source, parentsUntil check" );
-  
-  same( $("#foo1000, #bar1000").parentsUntil("body, html").get(), parents_until_body2.add(parents_until_body).get(), "Multi-source, less simple parentsUntil check" );
-  same( $("#bar1000, #foo1000").parentsUntil("body, html", "span").get(), parents_until_body2.add(parents_until_body).not("p, em, div").get(), "Multi-source, less simple filtered parentsUntil check" );
-  same( $("#bar1000, #foo1000").parentsUntil("body, html", "p, span, em, div").get(), parents_until_body2.add(parents_until_body).get(), "Multi-source, less simple multiple-filtered parentsUntil check" );
-});
-
-}); // END CLOSURE
-//-->
-</script>
+  <script type="text/javascript" src="../jquery.ba-untils.js"></script>
+  <script type="text/javascript" src="unit.js"></script>
 </head>
 <body>
-
-<h1>jQuery Untils - Unit Tests (<a href="http://benalman.com/projects/jquery-untils-plugin/">Project Home</a>)</h1>
-<h2 id="banner"></h2>
-<h2 id="userAgent"></h2>
-
-<ol id="tests"></ol>
-<div id="main"></div>
-
-<div id="test" style="display:none;">
-  
-  <div id="foo">
-    <p id="foo1" class="a">
-      <span id="foo10" class="aa">
-        <em id="foo100" class="aaa">
-          <strong id="foo1000" class="aaaa">
-            omg ponies
-          </strong>
-        </em>
-      </span>
-    </p>
-    <span id="foo2" class="b"></span>
-    <p id="foo3" class="c"></p>
-    <span id="foo4" class="d"></span>
-    <p id="foo5" class="e"></p>
-    <span id="foo6" class="f"></span>
-    <p id="foo7" class="g"></p>
-    <span id="foo8" class="h"></span>
+  <div id="qunit-header">
+    <h1>jQuery untils - Unit Tests</h1>
+    <small><a href="http://benalman.com/projects/jquery-untils-plugin/">Project Home</a></small>
+    <div style="clear:both"></div>
   </div>
-  
-  <div id="bar">
-    <p id="bar1" class="a">
-      <span id="bar10" class="aa">
-        <em id="bar100" class="aaa">
-          <strong id="bar1000" class="aaaa">
-            omg ponies
-          </strong>
-        </em>
-      </span>
-    </p>
-    <span id="bar2" class="b"></span>
-    <p id="bar3" class="c"></p>
-    <span id="bar4" class="d"></span>
-    <p id="bar5" class="e"></p>
-    <span id="bar6" class="f"></span>
-    <p id="bar7" class="g"></p>
-    <span id="bar8" class="h"></span>
-  </div>
-  
-</div>
+  <h2 id="qunit-banner"><span></span></h2>
+  <div id="qunit-testrunner-toolbar"></div>
+  <h2 id="qunit-userAgent"></h2>
+  <p>
+    These unit tests include jQuery <span id="jq_version">...</span>.
+  </p>
+  <ol id="qunit-tests"></ol>
 
-</body>
+  <div id="test" style="display:none;">
+    
+    <div id="foo">
+      <p id="foo1" class="a">
+        <span id="foo10" class="aa">
+          <em id="foo100" class="aaa">
+            <strong id="foo1000" class="aaaa">
+              omg ponies
+            </strong>
+          </em>
+        </span>
+      </p>
+      <span id="foo2" class="b"></span>
+      <p id="foo3" class="c"></p>
+      <span id="foo4" class="d"></span>
+      <p id="foo5" class="e"></p>
+      <span id="foo6" class="f"></span>
+      <p id="foo7" class="g"></p>
+      <span id="foo8" class="h"></span>
+    </div>
+    
+    <div id="bar">
+      <p id="bar1" class="a">
+        <span id="bar10" class="aa">
+          <em id="bar100" class="aaa">
+            <strong id="bar1000" class="aaaa">
+              omg ponies
+            </strong>
+          </em>
+        </span>
+      </p>
+      <span id="bar2" class="b"></span>
+      <p id="bar3" class="c"></p>
+      <span id="bar4" class="d"></span>
+      <p id="bar5" class="e"></p>
+      <span id="bar6" class="f"></span>
+      <p id="bar7" class="g"></p>
+      <span id="bar8" class="h"></span>
+    </div>
+    
+    <div id="baz">
+      <p id="baz1"></p>
+      <span id="baz2"></span>
+      <span id="baz3"></span>
+      <p id="baz4"></p>
+    </div>
+  </div></body>
 </html>
